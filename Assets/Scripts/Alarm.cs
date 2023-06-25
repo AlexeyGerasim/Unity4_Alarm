@@ -4,47 +4,44 @@ using UnityEngine;
 public class Alarm : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _renderer;
-    [SerializeField] private Color _reachedColor;
-
     private AudioSource _audioSource;
-    private Coroutine fadeCoroutine;
-    private VolumeController _volumeController;
+    private int count = 0;
 
-    private void Start()
+    public void Siren()
     {
+        count++;
+
+        if (count % 2 == 1)
+        {
+            StartSiren(1f);
+        }
+        else
+        {
+            StartSiren(0f);
+        }
+    }
+
+    private void StartSiren(float targetVolume)
+    {
+        StartCoroutine("WorkVolume", targetVolume);
+    }
+
+    public IEnumerator WorkVolume(float targetVolume)
+    {
+        float maxDelta = 0.001f;
+
         _audioSource = GetComponent<AudioSource>();
-        _volumeController = GetComponent<VolumeController>();
-    }
+        _audioSource.Play();
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        float targetVolume = 1f;
-
-        if (collision.TryGetComponent<Player>(out Player player))
+        while (Mathf.Abs(_audioSource.volume - targetVolume) > maxDelta)
         {
-            if (fadeCoroutine != null)
-            {
-                _volumeController.StopCoroutine(fadeCoroutine);
-            }
-
-            _renderer.color = _reachedColor;
-            fadeCoroutine = _volumeController.StartCoroutine(_volumeController.WorkVolume(targetVolume));
+            ChangeVolume(targetVolume, maxDelta);
+            yield return null;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void ChangeVolume(float _targetVolume, float _maxDelta)
     {
-        float targetVolume = 0f;
-
-        if (collision.TryGetComponent<Player>(out Player player))
-        {
-            if (fadeCoroutine != null && _audioSource.volume > targetVolume)
-            {
-                _volumeController.StopCoroutine(fadeCoroutine);
-            }
-
-            _renderer.color = Color.white;
-            fadeCoroutine = _volumeController.StartCoroutine(_volumeController.WorkVolume(targetVolume));
-        }
+        _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _targetVolume, _maxDelta);
     }
 }

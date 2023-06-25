@@ -296,6 +296,7 @@ GameObject:
   - component: {fileID: 1288181890}
   - component: {fileID: 1288181891}
   - component: {fileID: 1288181892}
+  - component: {fileID: 1288181893}
   m_Layer: 0
   m_Name: Open_house
   m_TagString: Untagged
@@ -409,7 +410,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 1288181887}
-  _reachedColor: {r: 0.7169812, g: 0.22591667, b: 0.22591667, a: 1}
+  _reached:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1288181893}
+        m_TargetAssemblyTypeName: TargetColorSetter, Assembly-CSharp
+        m_MethodName: Change
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1288181892}
+        m_TargetAssemblyTypeName: Alarm, Assembly-CSharp
+        m_MethodName: Siren
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!82 &1288181891
 AudioSource:
   m_ObjectHideFlags: 0
@@ -422,7 +449,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 86846a53223aa7d4a8805f9c7a479820, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.327
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -518,6 +545,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8983344cf8b0eb34d9eadfed666b7d8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _renderer: {fileID: 0}
+--- !u!114 &1288181893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288181886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 638737bd4b8df5048899e428701dce88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderer: {fileID: 1288181887}
+  _targetColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1755040729
 GameObject:
   m_ObjectHideFlags: 0

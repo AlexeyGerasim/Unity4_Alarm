@@ -6,9 +6,19 @@ public class TargetColorSetter : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private Color _targetColor;
+    private int count = 0;
 
     public void Change()
     {
-        _renderer.color = _targetColor;
+        count++;
+
+        if (count % 2 == 1)
+        {
+            _renderer.color = _targetColor;
+        }
+        else
+        {
+            _renderer.color = Color.white;
+        }
     }
 }
