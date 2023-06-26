@@ -6,13 +6,14 @@ public class TargetColorSetter : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private Color _targetColor;
-    private int count = 0;
+
+    private bool isSirenActive = false;
 
     public void Change()
     {
-        count++;
+        isSirenActive = !isSirenActive;
 
-        if (count % 2 == 1)
+        if (isSirenActive)
         {
             _renderer.color = _targetColor;
         }

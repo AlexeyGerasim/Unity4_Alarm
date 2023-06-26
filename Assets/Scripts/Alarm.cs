@@ -4,26 +4,38 @@ using UnityEngine;
 public class Alarm : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _renderer;
+
+    private Coroutine sirenCoroutine;
     private AudioSource _audioSource;
-    private int count = 0;
+    private bool isSirenActive = false;
 
     public void Siren()
     {
-        count++;
+        isSirenActive = !isSirenActive;
 
-        if (count % 2 == 1)
+        if (isSirenActive)
         {
+            StopSiren();
             StartSiren(1f);
         }
         else
         {
+            StopSiren();
             StartSiren(0f);
         }
     }
 
     private void StartSiren(float targetVolume)
     {
-        StartCoroutine("WorkVolume", targetVolume);
+        sirenCoroutine = StartCoroutine(WorkVolume(targetVolume));
+    }
+
+    private void StopSiren()
+    {
+        if (sirenCoroutine != null)
+        {
+            StopCoroutine(sirenCoroutine);
+        }
     }
 
     public IEnumerator WorkVolume(float targetVolume)
@@ -33,7 +45,9 @@ public class Alarm : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _audioSource.Play();
 
-        while (Mathf.Abs(_audioSource.volume - targetVolume) > maxDelta)
+        float deltaVolume = Mathf.Abs(_audioSource.volume - targetVolume);
+
+        while (deltaVolume > maxDelta)
         {
             ChangeVolume(targetVolume, maxDelta);
             yield return null;
